@@ -14,4 +14,10 @@ export class DataService {
       'https://634d2e67f5d2cc648e9eb0da.mockapi.io/hrdata'
     );
   }
+
+  getGenders(): Observable<string[]> {
+    return this._http
+      .get<any>('https://634d2e67f5d2cc648e9eb0da.mockapi.io/hrdata')
+      .pipe(map((data) => data.map((item: Data) => item.gender)));
+  }
 }
