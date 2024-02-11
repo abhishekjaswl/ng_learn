@@ -1,0 +1,49 @@
+<button
+  mat-icon-button
+  [matMenuTriggerFor]="filterOptions"
+  #filterButton="matMenuTrigger"
+  (click)="openFilterMenu(filterButton)"
+>
+  <i class="bi bi-filter"></i>
+</button>
+
+<mat-menu #filterOptions="matMenu" class="p-3 pb-0">
+  <div>
+    <button mat-icon-button (click)="openFilterMenu(filterButton)">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <mat-radio-group
+    (change)="
+      applyFilter({
+        column: column,
+        filter: { sort: $event.value, checks: selectedGenders }
+      })
+    "
+    class="radio"
+  >
+    <div>
+      <label>Sort Options</label>
+      <ul>
+        <mat-radio-button class="example-radio-button" value="ascending">
+          Ascending</mat-radio-button
+        >
+        <mat-radio-button class="example-radio-button" value="descending">
+          Descending</mat-radio-button
+        >
+      </ul>
+    </div>
+  </mat-radio-group>
+
+  @if(column == 'Gender'){
+  <section class="example-section" [formGroup]="form">
+    <hr />
+    <h4 class="mt-2">Select genders:</h4>
+    @for (gender of genders ; track gender){
+    <mat-checkbox [formControlName]="gender.value">{{
+      gender.display
+    }}</mat-checkbox>
+    }
+  </section>
+  }
+</mat-menu>

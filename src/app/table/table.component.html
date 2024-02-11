@@ -1,0 +1,49 @@
+<div class="display-stats mt border rounded p-2 m-5">
+  <!-- Data Table -->
+  <table
+    class="table table-responsive table-bordered text-center table-striped caption-top"
+  >
+    <caption>
+      HR Data
+    </caption>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>ID</th>
+        @for (column of columns ; track column){
+        <th>
+          {{ column }}
+          <app-filter-menu
+            [column]="column"
+            (appliedFilters)="onFilter($event)"
+            [genders]="genders"
+          />
+        </th>
+        }
+      </tr>
+    </thead>
+    <tbody>
+      @if (!isLoading) { @for (data of datas ; track data ;let i = $index){
+      <tr>
+        <th>{{ i + 1 }}</th>
+        <td>{{ data.id }}</td>
+        <td>{{ data.name }}</td>
+        <td>{{ data.email }}</td>
+        <td>{{ data.phone }}</td>
+        <td>{{ data.address }}</td>
+        <td>{{ data.dob }}</td>
+        <td>{{ data.gender }}</td>
+      </tr>
+      }@empty {
+      <td [colSpan]="8">
+        <h2>Wow! So Empty</h2>
+      </td>
+      } } @else {
+      <td [colSpan]="8">
+        <span class="loading loading-infinity loading-md"></span>
+      </td>
+      }
+    </tbody>
+    <span class="loading loading-infinity loading-md"></span>
+  </table>
+</div>
