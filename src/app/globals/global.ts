@@ -6,6 +6,7 @@ export class Globals {}
 export type FilterEmitType = {
   column: string;
   filter: {
+    search: string;
     sort: string;
     checks: string[];
   };

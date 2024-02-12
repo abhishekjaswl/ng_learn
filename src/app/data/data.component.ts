@@ -18,16 +18,14 @@ export class DataComponent implements OnInit {
   ngOnInit(): void {
     this.dataService.getData().subscribe({
       next: (value) => {
-        this.isLoading = false;
         this.datas = value;
         this.displayData = value;
-        this.genders.push(
-          ...value.map((x) => ({
-            value: x.gender,
-            display: x.gender,
-          }))
-        );
-        console.log(this.genders);
+        const uniqueGendersSet = new Set(value.map((x) => x.gender));
+        this.genders = Array.from(uniqueGendersSet).map((gender) => ({
+          value: gender,
+          display: gender,
+        }));
+        this.isLoading = false;
       },
       error: (e) => {
         console.log(e);
@@ -50,10 +48,33 @@ export class DataComponent implements OnInit {
 
           if (
             filterValue &&
+            filterValue.filter.search &&
+            filterValue.filter.search.length > 0
+          ) {
+            if (
+              !filterValue.filter.search
+                .toLowerCase()
+                .includes(
+                  String(data[key.toLowerCase() as keyof Data]).toLowerCase()
+                )
+            ) {
+              return false;
+            }
+          }
+        }
+        return true;
+      });
+
+      filteredData = filteredData.filter((data) => {
+        for (let i = 0; i < keys.length; i++) {
+          const key = keys[i];
+          const filterValue = $event[key];
+
+          if (
+            filterValue &&
             filterValue.filter!.checks &&
             filterValue.filter!.checks.length > 0
           ) {
-            // Check if the data matches any of the keywords in the checks array
             if (
               !filterValue.filter!.checks.includes(
                 String(data[key.toLowerCase() as keyof Data])

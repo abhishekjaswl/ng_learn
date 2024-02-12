@@ -1,58 +1,67 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { FilterEmitType } from '../globals/global';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { MatListOption } from '@angular/material/list';
 
 @Component({
   selector: 'app-filter-menu',
   templateUrl: './filter-menu.component.html',
   styleUrl: './filter-menu.component.css',
 })
-export class FilterMenuComponent implements OnInit {
-  @Input() column!: string;
+export class FilterMenuComponent {
+  @Input() currentColumn!: string;
   @Input() genders!: { value: string; display: string }[];
-  selectedGenders: string[] = [];
-  sortType!: string;
-  protected form!: FormGroup;
-
-  constructor(private _formBuilder: FormBuilder) {}
-
-  ngOnInit(): void {
-    // Your existing code to set up the form and subscribe to value changes
-    const controls = this.genders.map((x) => ({
-      control: new FormControl(false),
-      name: x.value,
-    }));
-
-    let group: any = {};
-    controls.forEach((x) => {
-      group[x.name] = x.control;
-    });
-
-    this.form = this._formBuilder.group(group);
-
-    this.form.valueChanges.subscribe({
-      next: (formValues) => {
-        this.selectedGenders = Object.keys(formValues).filter(
-          (key) => formValues[key]
-        );
-        this.applyFilter({
-          column: this.column,
-          filter: { sort: this.sortType, checks: this.selectedGenders },
-        });
-      },
-    });
-  }
+  appliedFiltersList: any = {};
 
   openFilterMenu(filterTrigger: MatMenuTrigger): void {
     filterTrigger.openMenu();
   }
 
-  applyFilter({ column, filter }: FilterEmitType): void {
-    this.sortType = filter?.sort;
+  clearFilters(column: string): void {
+    this.appliedFiltersList.searchTerm = '';
+    this.appliedFiltersList.sort = '';
+    this.appliedFiltersList.checks = '';
     this.appliedFilters.emit({
       column: column,
       filter: {
+        search: '',
+        sort: '',
+        checks: [],
+      },
+    });
+  }
+
+  searchFilter() {
+    this.applyFilter({
+      column: this.currentColumn,
+      filter: {
+        search: this.appliedFiltersList.searchTerm,
+        sort: this.appliedFiltersList.sort,
+        checks: this.appliedFiltersList.checks,
+      },
+    });
+  }
+
+  genderSelect($event: any): void {
+    let selections = $event.source.selectedOptions.selected.map(
+      (o: MatListOption) => o.value.value
+    );
+
+    this.applyFilter({
+      column: this.currentColumn,
+      filter: {
+        search: this.appliedFiltersList.searchTerm,
+        sort: this.appliedFiltersList.sort,
+        checks: selections,
+      },
+    });
+  }
+
+  applyFilter({ column, filter }: FilterEmitType): void {
+    this.appliedFilters.emit({
+      column: column,
+      filter: {
+        search: filter.search,
         sort: filter.sort,
         checks: filter.checks,
       },

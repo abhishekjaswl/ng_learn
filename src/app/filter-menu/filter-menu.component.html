@@ -7,43 +7,56 @@
   <i class="bi bi-filter"></i>
 </button>
 
-<mat-menu #filterOptions="matMenu" class="p-3 pb-0">
-  <div>
-    <button mat-icon-button (click)="openFilterMenu(filterButton)">
-      <mat-icon>close</mat-icon>
-    </button>
-  </div>
-  <mat-radio-group
-    (change)="
-      applyFilter({
-        column: column,
-        filter: { sort: $event.value, checks: selectedGenders }
-      })
-    "
-    class="radio"
-  >
+<mat-menu #filterOptions="matMenu" class="px-3">
+  <div style="max-height: 500px" (click)="$event.stopPropagation()">
+    <div class="float-end">
+      <button mat-icon-button (click)="clearFilters(currentColumn)">
+        <i class="bi bi-x"></i>
+      </button>
+    </div>
+
+    <input
+      type="text"
+      name="text"
+      class="input"
+      placeholder="Search"
+      [(ngModel)]="appliedFiltersList.searchTerm"
+      (input)="searchFilter()"
+    />
+
     <div>
       <label>Sort Options</label>
-      <ul>
-        <mat-radio-button class="example-radio-button" value="ascending">
-          Ascending</mat-radio-button
-        >
-        <mat-radio-button class="example-radio-button" value="descending">
-          Descending</mat-radio-button
-        >
-      </ul>
+      <mat-selection-list
+        #sortOpt
+        [(ngModel)]="appliedFiltersList.sort"
+        [multiple]="false"
+        (selectionChange)="
+          applyFilter({
+            column: currentColumn,
+            filter: {
+              search: appliedFiltersList.searchTerm,
+              sort: sortOpt.selectedOptions.selected[0].value,
+              checks: appliedFiltersList.checks
+            }
+          })
+        "
+      >
+        <mat-list-option value="ascending">Ascending</mat-list-option>
+        <mat-list-option value="descending">Descending</mat-list-option>
+      </mat-selection-list>
     </div>
-  </mat-radio-group>
 
-  @if(column == 'Gender'){
-  <section class="example-section" [formGroup]="form">
+    @if(currentColumn == 'Gender' ){
     <hr />
-    <h4 class="mt-2">Select genders:</h4>
-    @for (gender of genders ; track gender){
-    <mat-checkbox [formControlName]="gender.value">{{
-      gender.display
-    }}</mat-checkbox>
+    <mat-selection-list
+      [(ngModel)]="appliedFiltersList.checks"
+      (selectionChange)="genderSelect($event)"
+    >
+      <h4>Select genders:</h4>
+      @for (gender of genders ; track gender){
+      <mat-list-option [value]="gender">{{ gender.display }}</mat-list-option>
+      }
+    </mat-selection-list>
     }
-  </section>
-  }
+  </div>
 </mat-menu>
