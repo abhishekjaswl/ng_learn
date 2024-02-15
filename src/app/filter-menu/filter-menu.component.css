@@ -15,18 +15,18 @@
 
 @keyframes rotateShadow {
   0% {
-    box-shadow: -2px -2px 0px 0px #aa00ff, 2px 2px 0px 0px #3700ff;
+    box-shadow: -2px -2px 8px 1px #e6e6e6, 2px 2px 8px 1px #ffffff;
   }
   25% {
-    box-shadow: -2px 2px 0px 0px #aa00ff, 2px -2px 0px 0px #3700ff;
+    box-shadow: -2px 2px 8px 1px #e6e6e6, 2px -2px 8px 1px #ffffff;
   }
   50% {
-    box-shadow: 2px 2px 0px 0px #aa00ff, -2px -2px 0px 0px #3700ff;
+    box-shadow: 2px 2px 8px 1px #e6e6e6, -2px -2px 8px 1px #ffffff;
   }
   75% {
-    box-shadow: 2px -2px 0px 0px #aa00ff, -2px 2px 0px 0px #3700ff;
+    box-shadow: 2px -2px 8px 1px #e6e6e6, -2px 2px 8px 1px #ffffff;
   }
   100% {
-    box-shadow: -2px -2px 0px 0px #aa00ff, 2px 2px 0px 0px #3700ff;
+    box-shadow: -2px -2px 8px 1px #e6e6e6, 2px 2px 8px 1px #ffffff;
   }
 }

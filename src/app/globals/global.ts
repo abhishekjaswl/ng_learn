@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
 
 @Injectable()
-export class Globals {}
+export class Globals {
+  error: string = '';
+}
+
+export function clearAllFilters() {}
 
 export type FilterEmitType = {
   column: string;

@@ -1,0 +1,29 @@
+.content {
+  display: block;
+  height: 25px;
+  line-height: 25px;
+  width: 100%;
+  position: relative;
+}
+
+#icon {
+  float: right;
+  position: absolute;
+  right: 10px;
+  top: -10px;
+}
+
+.contain {
+  height: 100%;
+  display: flex;
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.main {
+  width: 100%;
+  align-self: center;
+}
+
+

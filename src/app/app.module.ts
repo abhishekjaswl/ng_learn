@@ -12,8 +12,10 @@ import { DataComponent } from './data/data.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { FilterMenuComponent } from './filter-menu/filter-menu.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { LoaderComponent } from './loader/loader.component';
+import { LoaderComponent } from './components/loader/loader.component';
 import { MatListModule } from '@angular/material/list';
+import { Globals } from './globals/global';
+import { ClearBtnComponent } from './components/clear-btn/clear-btn.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +24,7 @@ import { MatListModule } from '@angular/material/list';
     DataComponent,
     FilterMenuComponent,
     LoaderComponent,
+    ClearBtnComponent,
   ],
   imports: [
     BrowserModule,
@@ -33,7 +36,7 @@ import { MatListModule } from '@angular/material/list';
     ReactiveFormsModule,
     MatListModule,
   ],
-  providers: [provideHttpClient(), provideAnimationsAsync()],
+  providers: [provideHttpClient(), provideAnimationsAsync(), Globals],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

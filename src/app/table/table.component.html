@@ -1,46 +1,55 @@
 @if (!isLoading) {
-<div class="border rounded m-5">
+<div class="contain">
   <!-- Data Table -->
-  <table
-    class="table table-responsive table-bordered text-center table-striped"
-  >
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>ID</th>
-        @for (column of columns ; track column){
-        <th>
-          <app-filter-menu
-            class="float-end"
-            [currentColumn]="column"
-            (appliedFilters)="onFilter($event)"
-            [genders]="genders"
-          />
-          {{ column }}
-        </th>
-        }
-      </tr>
-    </thead>
-    <tbody>
-      @for (data of datas ; track data ;let i = $index){
-      <tr>
-        <th>{{ i + 1 }}</th>
-        <td>{{ data.id }}</td>
-        <td>{{ data.name }}</td>
-        <td>{{ data.email }}</td>
-        <td>{{ data.phone }}</td>
-        <td>{{ data.address }}</td>
-        <td>{{ data.dob | date : "yyyy-MMM-dd" }}</td>
-        <td>{{ data.gender }}</td>
-      </tr>
-      }@empty {
-      <td [colSpan]="columns.length + 2">
-        <h2>Wow! So Empty</h2>
-      </td>
-      }
-    </tbody>
-  </table>
+  <div class="main">
+    <app-clear-btn />
+    <table
+      class="table table-responsive table-bordered text-center table-striped"
+    >
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>ID</th>
+          @for (column of columns ; track column){
+          <th>
+            <div class="content">
+              {{ column }}
+              <app-filter-menu
+                id="icon"
+                [currentColumn]="column"
+                (appliedFilters)="onFilter($event)"
+                [genders]="genders"
+              />
+            </div>
+          </th>
+          }
+        </tr>
+      </thead>
+      <tbody>
+        @for (data of datas ; track data ;let i = $index){
+        <tr>
+          <th>{{ i + 1 }}</th>
+          <td>{{ data.id }}</td>
+          <td>{{ data.name }}</td>
+          <td>{{ data.email }}</td>
+          <td>{{ data.phone }}</td>
+          <td>{{ data.address }}</td>
+          <td>{{ data.dob | date : "yyyy-MMM-dd" }}</td>
+          <td class="gay">{{ data.gender }}</td>
+        </tr>
+        }@empty { @if(this.global.error){
+        <td [colSpan]="columns.length + 2">
+          <h2>{{ this.global.error }}</h2>
+        </td>
+        }@else{
+        <td [colSpan]="columns.length + 2">
+          <h2>Wow! So Empty</h2>
+        </td>
+        } }
+      </tbody>
+    </table>
+  </div>
 </div>
 } @else {
-<app-loader class="d-flex justify-content-center" />
+<app-loader class="d-flex h-100 align-center justify-content-center" />
 }

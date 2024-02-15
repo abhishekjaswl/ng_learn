@@ -5,7 +5,11 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { FilterEmitType, MultiFilterEmitType } from '../globals/global';
+import {
+  FilterEmitType,
+  Globals,
+  MultiFilterEmitType,
+} from '../globals/global';
 
 @Component({
   selector: 'app-table',
@@ -21,6 +25,8 @@ export class TableComponent {
   currentColumn!: string;
 
   filterObject: MultiFilterEmitType = {};
+
+  constructor(protected global: Globals) {}
 
   onFilter($event: FilterEmitType): void {
     this.filterObject[$event.column] = $event;

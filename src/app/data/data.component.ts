@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../services/data.service';
 import { Data } from '../interfaces/data';
-import { MultiFilterEmitType } from '../globals/global';
+import { Globals, MultiFilterEmitType } from '../globals/global';
 
 @Component({
   selector: 'app-data',
@@ -13,8 +13,9 @@ export class DataComponent implements OnInit {
   public isLoading: boolean = true;
   public genders: { value: string; display: string }[] = [];
 
-  constructor(private dataService: DataService) {}
+  constructor(private dataService: DataService, private global: Globals) {}
 
+  // get data for table components
   ngOnInit(): void {
     this.dataService.getData().subscribe({
       next: (value) => {
@@ -27,8 +28,9 @@ export class DataComponent implements OnInit {
         }));
         this.isLoading = false;
       },
-      error: (e) => {
-        console.log(e);
+      error: () => {
+        this.global.error = 'Data not found!';
+        this.isLoading = false;
       },
     });
   }
@@ -37,10 +39,10 @@ export class DataComponent implements OnInit {
     if (!$event) {
       this.displayData = this.datas;
     } else {
-      let filteredData = [...this.datas];
-
+      let filteredData = this.datas;
       const keys = Object.keys($event);
 
+      // search filter
       filteredData = filteredData.filter((data) => {
         for (let i = 0; i < keys.length; i++) {
           const key = keys[i];
@@ -65,6 +67,7 @@ export class DataComponent implements OnInit {
         return true;
       });
 
+      // checkbox filter
       filteredData = filteredData.filter((data) => {
         for (let i = 0; i < keys.length; i++) {
           const key = keys[i];
@@ -87,6 +90,7 @@ export class DataComponent implements OnInit {
         return true;
       });
 
+      // sorting
       filteredData = filteredData.sort((a, b) => {
         for (let i = 0; i < keys.length; i++) {
           const key = keys[i];

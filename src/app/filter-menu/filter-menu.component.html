@@ -9,10 +9,8 @@
 
 <mat-menu #filterOptions="matMenu" class="px-3">
   <div style="max-height: 500px" (click)="$event.stopPropagation()">
-    <div class="float-end">
-      <button mat-icon-button (click)="clearFilters(currentColumn)">
-        <i class="bi bi-x"></i>
-      </button>
+    <div class="my-2">
+      <app-clear-btn (click)="clearFilters(currentColumn)" />
     </div>
 
     <input

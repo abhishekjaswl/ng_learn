@@ -1,6 +1,8 @@
 .loader {
-  width: 12em;
-  height: 12em;
+  width: 20em;
+  height: 20em;
+  align-self: center;
+  justify-self: center;
 }
 
 .loader path {

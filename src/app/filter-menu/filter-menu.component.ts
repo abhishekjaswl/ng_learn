@@ -11,7 +11,11 @@ import { MatListOption } from '@angular/material/list';
 export class FilterMenuComponent {
   @Input() currentColumn!: string;
   @Input() genders!: { value: string; display: string }[];
-  appliedFiltersList: any = {};
+  appliedFiltersList: { searchTerm: string; sort: string; checks: string[] } = {
+    searchTerm: '',
+    sort: '',
+    checks: [],
+  };
 
   openFilterMenu(filterTrigger: MatMenuTrigger): void {
     filterTrigger.openMenu();
@@ -20,7 +24,7 @@ export class FilterMenuComponent {
   clearFilters(column: string): void {
     this.appliedFiltersList.searchTerm = '';
     this.appliedFiltersList.sort = '';
-    this.appliedFiltersList.checks = '';
+    this.appliedFiltersList.checks = [];
     this.appliedFilters.emit({
       column: column,
       filter: {
@@ -36,7 +40,7 @@ export class FilterMenuComponent {
       column: this.currentColumn,
       filter: {
         search: this.appliedFiltersList.searchTerm,
-        sort: this.appliedFiltersList.sort,
+        sort: this.appliedFiltersList.sort[0],
         checks: this.appliedFiltersList.checks,
       },
     });
@@ -51,13 +55,14 @@ export class FilterMenuComponent {
       column: this.currentColumn,
       filter: {
         search: this.appliedFiltersList.searchTerm,
-        sort: this.appliedFiltersList.sort,
+        sort: this.appliedFiltersList.sort[0],
         checks: selections,
       },
     });
   }
 
   applyFilter({ column, filter }: FilterEmitType): void {
+    console.log(this.appliedFiltersList.sort[0]);
     this.appliedFilters.emit({
       column: column,
       filter: {
